@@ -35,7 +35,6 @@ def create_table():
 # Display tasks
 @app.route("/")
 def home():
-
     conn = get_db()
 
     tasks = conn.execute(
