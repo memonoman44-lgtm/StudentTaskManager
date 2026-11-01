@@ -1,0 +1,145 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Task Manager</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='style.css') }}">
+
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <h1>🎓 Student Task Manager</h1>
+        <p>Organize your studies. Manage your success.</p>
+    </header>
+
+
+    <!-- Dashboard Statistics -->
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <h3>Total Tasks</h3>
+            <h2>{{ total }}</h2>
+        </div>
+
+        <div class="stat-card">
+            <h3>Pending</h3>
+            <h2>{{ pending }}</h2>
+        </div>
+
+        <div class="stat-card">
+            <h3>Completed</h3>
+            <h2>{{ completed }}</h2>
+        </div>
+
+    </section>
+
+
+    <!-- Add Task Form -->
+
+    <section class="task-form">
+
+        <h2>Add New Task</h2>
+
+        <form action="/add" method="POST">
+
+            <input type="text"
+                   name="title"
+                   placeholder="Enter task name"
+                   required>
+
+            <input type="text"
+                   name="subject"
+                   placeholder="Enter subject">
+
+            <input type="date"
+                   name="due_date">
+
+            <button type="submit">
+                + Add Task
+            </button>
+
+        </form>
+
+    </section>
+
+
+    <!-- Display Tasks -->
+
+    <section class="task-list">
+
+        <h2>My Tasks</h2>
+
+        {% if tasks %}
+
+            {% for task in tasks %}
+
+            <div class="task-card">
+
+                <div>
+
+                    <h3>{{ task.title }}</h3>
+
+                    <p>
+                        Subject:
+                        {{ task.subject or 'Not specified' }}
+                    </p>
+
+                    <p>
+                        Due Date:
+                        {{ task.due_date or 'Not specified' }}
+                    </p>
+
+                    <span class="{{ 'completed' if task.status == 'Completed' else 'pending' }}">
+                        {{ task.status }}
+                    </span>
+
+                </div>
+
+                <div class="actions">
+
+                    {% if task.status == 'Pending' %}
+
+                    <a href="/complete/{{ task.id }}"
+                       class="complete">
+                        Complete
+                    </a>
+
+                    {% endif %}
+
+                    <a href="/delete/{{ task.id }}"
+                       class="delete"
+                       onclick="return confirm('Delete this task?')">
+                        Delete
+                    </a>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <p class="empty">
+                No tasks yet. Add your first task!
+            </p>
+
+        {% endif %}
+
+    </section>
+
+</div>
+
+</body>
+</html>
