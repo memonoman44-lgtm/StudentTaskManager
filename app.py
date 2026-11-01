@@ -120,6 +120,7 @@ def delete_task(task_id):
 
 
 # Run application
+create_table()
 if __name__ == "__main__":
 
     create_table()
