@@ -153,9 +153,3 @@ def create_table():
 
     conn.commit()
     conn.close()
-
-
-# 3. Continue with your Flask routes
-@app.route("/")
-def home():
-    pass
