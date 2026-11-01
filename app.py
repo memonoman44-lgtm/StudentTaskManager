@@ -125,31 +125,3 @@ if __name__ == "__main__":
     create_table()
 
     app.run(debug=True)
-import sqlite3
-from flask import Flask
-
-app = Flask(__name__)
-
-# 1. Database connection
-def get_db():
-    conn = sqlite3.connect("database.db")
-    conn.row_factory = sqlite3.Row
-    return conn
-
-
-# 2. Create database table
-def create_table():
-    conn = get_db()
-
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS tasks (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            subject TEXT,
-            due_date TEXT,
-            status TEXT DEFAULT 'Pending'
-        )
-    """)
-
-    conn.commit()
-    conn.close()
